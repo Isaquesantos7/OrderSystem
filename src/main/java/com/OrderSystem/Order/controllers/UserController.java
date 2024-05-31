@@ -3,6 +3,7 @@ package com.OrderSystem.Order.controllers;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,8 +14,10 @@ import com.OrderSystem.Order.entities.User;
 import com.OrderSystem.Order.repositories.UserRepository;
 
 import jakarta.validation.Valid;
+import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 public class UserController {
 	
 	private UserRepository userRepository;
@@ -24,10 +27,10 @@ public class UserController {
 	}
 	
 	@GetMapping("/api/users")
-	public ResponseEntity<User> findAll() {
-		User user = new User(1L, "Isaque", "isaquesantos.1998@gmail.com", "+5571987308769", "86992134");
+	public ResponseEntity<List<User>> findAll() {
+		List<User> listUser = this.userRepository.findAll();
 		
-		return ResponseEntity.status(HttpStatus.OK).body(user);
+		return ResponseEntity.status(HttpStatus.OK).body(listUser);
 	}
 	
 	@PostMapping("/api/users")
