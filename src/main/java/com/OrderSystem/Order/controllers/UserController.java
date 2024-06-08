@@ -1,18 +1,15 @@
 package com.OrderSystem.Order.controllers;
 
+import com.OrderSystem.Order.repositories.UserRepository;
+import com.OrderSystem.Order.services.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.OrderSystem.Order.DTOS.UserDTO;
 import com.OrderSystem.Order.entities.User;
-import com.OrderSystem.Order.repositories.UserRepository;
 
 import jakarta.validation.Valid;
 import java.util.List;
@@ -21,21 +18,27 @@ import java.util.List;
 @CrossOrigin("*")
 public class UserController {
 	@Autowired
-	private UserRepository userRepository;
-	
+	private UserService userService;
+
 	@GetMapping("/api/users")
 	public ResponseEntity<List<User>> findAll() {
-		List<User> listUser = this.userRepository.findAll();
-		
+		List<User> listUser = this.userService.findAll();
+
 		return ResponseEntity.status(HttpStatus.OK).body(listUser);
 	}
-	
+
+	@GetMapping("/api/users/{id}")
+	public ResponseEntity<Object> findById(@PathVariable(value = "id") Long id) {
+		Object user = this.userService.findById(id);
+
+		return ResponseEntity.status(HttpStatus.OK).body(user);
+	}
+
 	@PostMapping("/api/users")
 	public ResponseEntity<User> saveUser(@RequestBody @Valid UserDTO userDTO) {
 		User user = new User();
-		
+
 		BeanUtils.copyProperties(userDTO, user);
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body(this.userRepository.save(user));
+		return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.createUser(user));
 	}
 }
