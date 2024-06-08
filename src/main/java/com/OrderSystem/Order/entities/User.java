@@ -1,5 +1,6 @@
 package com.OrderSystem.Order.entities;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_user")
 public class User implements Serializable{
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	@Id
