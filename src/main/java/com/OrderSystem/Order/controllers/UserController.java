@@ -30,6 +30,10 @@ public class UserController {
 	public ResponseEntity<Object> findById(@PathVariable(value = "id") Long id) {
 		Object user = this.userService.findById(id);
 
+		if (user == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"User not found!\"}");
+		}
+
 		return ResponseEntity.status(HttpStatus.OK).body(user);
 	}
 

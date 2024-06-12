@@ -25,7 +25,7 @@ public class UserService {
         Optional<User> obj = this.userRepository.findById(id);
 
         if (obj.isEmpty()) {
-            return "User not found!";
+            return null;
         }
 
         return obj.get();
