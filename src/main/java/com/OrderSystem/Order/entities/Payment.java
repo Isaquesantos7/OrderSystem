@@ -19,6 +19,7 @@ public class Payment implements Serializable {
     private Long id;
     private Instant moment;
 
+    @JsonIgnore
     @OneToOne
     @MapsId
     private Order order;
@@ -47,7 +48,6 @@ public class Payment implements Serializable {
         this.moment = moment;
     }
 
-    @JsonIgnore
     public Order getOrder() {
         return order;
     }
