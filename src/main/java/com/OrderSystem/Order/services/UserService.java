@@ -30,4 +30,15 @@ public class UserService {
 
         return obj.get();
     }
+
+    public Object deleteById(Long id) {
+        Optional<User> user0 = this.userRepository.findById(id);
+
+        if (user0.isEmpty()) {
+            return null;
+        } else {
+            this.userRepository.deleteById(user0.get().getId());
+            return "{\"message\": \"User was delete with success!\"}";
+        }
+    }
 }
