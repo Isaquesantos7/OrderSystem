@@ -45,6 +45,16 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.createUser(user));
 	}
 
+	@PutMapping("/api/users/{id}")
+	public ResponseEntity<Object> updateUser (@PathVariable(value = "id") Long id, @RequestBody @Valid UserDTO userDTO) {
+		User updateUser = this.userService.updateUser(id, userDTO);
+
+		if (updateUser == null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"User not found!\"}");
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(updateUser);
+	}
+
 	@DeleteMapping("/api/users/{id}")
 	public ResponseEntity<Object> deleteById(@PathVariable(value = "id") Long id) {
 		Object user = this.userService.deleteById(id);
