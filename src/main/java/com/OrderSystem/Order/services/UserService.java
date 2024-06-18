@@ -34,15 +34,16 @@ public class UserService {
         return obj.get();
     }
 
-    public Object deleteById(Long id) {
-        Optional<User> user0 = this.userRepository.findById(id);
+    public User deleteById(Long id) {
+        User user = this.userRepository.findById(id).orElse(null);
 
-        if (user0.isEmpty()) {
+        if (user == null) {
             return null;
-        } else {
-            this.userRepository.deleteById(user0.get().getId());
-            return "{\"message\": \"User was delete with success!\"}";
         }
+
+        this.userRepository.deleteById(id);
+
+        return user;
     }
 
     public User updateUser(Long id, UserDTO updateUserDTO) {
@@ -53,7 +54,6 @@ public class UserService {
         }
 
         BeanUtils.copyProperties(updateUserDTO, user, "id");
-
         return this.userRepository.save(user);
     }
 

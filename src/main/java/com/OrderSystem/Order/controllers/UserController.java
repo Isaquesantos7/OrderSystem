@@ -57,12 +57,12 @@ public class UserController {
 
 	@DeleteMapping("/api/users/{id}")
 	public ResponseEntity<Object> deleteById(@PathVariable(value = "id") Long id) {
-		Object user = this.userService.deleteById(id);
+		User user = this.userService.deleteById(id);
 
 		if (user == null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"message\": \"User not found!\"}");
 		}
 
-		return ResponseEntity.status(HttpStatus.OK).body(user);
+		return ResponseEntity.status(HttpStatus.OK).body("{\"message\": \"User " + user.getName() + " was deleted with success!\"}");
 	}
 }
